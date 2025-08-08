@@ -1,20 +1,45 @@
-// trigger to play music in the background with sweetalert
-window.addEventListener('load', () => {
+// trigger to play music in the background with sweetalert after unlocking
+const startCelebration = () => {
     Swal.fire({
         title: 'เปิดเพลงด้วยมั้ยยย',
         icon: 'question',
-        
+
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'เปิดอย่างเดียวไม่ให้เลือกกก😊😊',
         cancelButtonText: 'No',
-        
+
     }).then((result) => {
         if (result.isConfirmed) {
             document.querySelector('.song').play();
             animationTimeline();
         } else {
             animationTimeline();
+        }
+    });
+};
+
+window.addEventListener('load', () => {
+    const input = document.getElementById('lockInput');
+    const lockScreen = document.getElementById('lockScreen');
+
+    document.querySelectorAll('.numpad .number').forEach(btn => {
+        btn.addEventListener('click', () => {
+            input.value += btn.dataset.num;
+        });
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        input.value = '';
+    });
+
+    document.getElementById('enterBtn').addEventListener('click', () => {
+        if (input.value === '21') {
+            lockScreen.style.display = 'none';
+            startCelebration();
+        } else {
+            input.value = '';
+            Swal.fire('ลองใหม่น้าา');
         }
     });
 });
